@@ -1,11 +1,11 @@
 {
   "tests": [
     {
-      "name": "0",
+      "name": "test_solution",
       "setup": "sudo -H pip3 install pytest",
       "run": "pytest",
-      "input": "",
-      "output": "",
+      "input": null,
+      "output": null,
       "comparison": "exact",
       "timeout": 1,
       "points": 1
