@@ -30,18 +30,21 @@ def penztar():
 def newguest():
     guest=input("Add meg a törzsvendég nevét: ")
     guests_file = os.path.join('data', 'guests.json')
+
     with open(guests_file, 'r', encoding='utf-8') as file:
             data = json.load(file)
-    if any(d['name'] == guest for d in data):
-        return NameError
-    else:
-        new_data = {
+
+    for item in data:
+        if item["name"] == guest:
+            raise NameError("A vendég már szerepel a listában!")
+        
+    new_data = {
         "name": guest,
         "balance": 0
     }
-        data.append(new_data)        
-        with open(guests_file, 'w', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+    data.append(new_data)        
+    with open(guests_file, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
     return print("Törzsvendég hozzáadva:", new_data)
 
 def order():
@@ -74,9 +77,6 @@ def order():
             price = drinkdata[guestdrink - 1]['price']
             ar = price * quantity
             newbalance = data[guestchoice - 1]['balance'] - ar
-            if newbalance < 0:
-                print("Nincs elég egyenlege a vendégnek.")
-                continue
             data[guestchoice - 1]['balance'] = newbalance
             drinkdata[guestdrink - 1]['stock'] -= quantity
             with open(guests_file, 'w', encoding='utf-8') as file:

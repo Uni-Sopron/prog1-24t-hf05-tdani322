@@ -16,6 +16,7 @@ def admin():
     if vissza(guestdrink):
         admin()
     print("Add meg az új ital adatait!")
+
     if 1 <= guestdrink <= sorszam-1:
         print("name","[",drinkdata[guestdrink-1]['name'],"]:", end='')
         nameinput=(input())
@@ -23,28 +24,36 @@ def admin():
             pass
         else:
             drinkdata[guestdrink-1]['name']=nameinput
+
         print("unit","[",drinkdata[guestdrink-1]['unit'],"]:", end='')
         unitinput=(input())
         if unitinput == "":
             pass
         else:
             drinkdata[guestdrink-1]['unit']=unitinput
+
         print("price","[",drinkdata[guestdrink-1]['price'],"]:", end='')
-        priceinput=int(input())
-        if priceinput == "":
+        try:
+            priceinput=int(input())
+        except ValueError:
             pass
         else:
             drinkdata[guestdrink-1]['price']=priceinput
+        
         print("stock","[",drinkdata[guestdrink-1]['stock'],"]:", end='')
-        stockinput=int(input())
-        if stockinput == "":
+        try:
+            stockinput=int(input())
+        except ValueError:
             pass
         else:
             drinkdata[guestdrink-1]['stock']=stockinput
+        
+        with open(drinks_file, 'w', encoding='utf-8') as file:
+            json.dump(drinkdata, file, ensure_ascii=False, indent=4)
+        
     if guestdrink == sorszam:
         newdrink()
-    with open(drinks_file, 'w', encoding='utf-8') as file:
-        json.dump(drinkdata, file, ensure_ascii=False, indent=4)
+
 
 
 
